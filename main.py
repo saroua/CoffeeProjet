@@ -28,6 +28,7 @@ resources = {
     "water": 300,
     "milk": 200,
     "coffee": 100,
+    "money": 0
 }
 
 
@@ -47,6 +48,18 @@ if choice == "off":
     print("Coffee machine turning off, goodbye.")
     exit()
 
-print("Correct input")
+elif choice == "report":
+    print(f"""Water: {resources["water"]}ml
+Milk: {resources["milk"]}ml
+Coffee: {resources["coffee"]}g
+Money: ${resources["money"]}
+""")
+    while choice not in ["off", "cappuccino", "latte", "espresso"]:
+        choice = user_choice()
+        if choice == "off":
+            print("Coffee machine turning off, goodbye.")
+            exit()
+        if choice not in ["cappuccino", "latte", "espresso"]:
+            print("Invalid input, please enter valid input.")
 
-test
+print("Correct input")
