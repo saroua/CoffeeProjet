@@ -78,6 +78,7 @@ def function_choice(user_input):
                 exit()
             elif resources["milk"] < 150:
                 print("Please refill milk")
+                exit()
             else:
                 # valid = True
                 return user_input
@@ -90,14 +91,49 @@ def function_choice(user_input):
                 exit()
             elif resources["milk"] < 100:
                 print("Please refill milk")
+                exit()
             else:
                 # valid = True
                 return user_input
 
 
-choice = user_choice()
-choice = function_choice(choice)
+def paying(user_input):
+    user_choice_cost = MENU[user_input]["cost"]
+    print(f"Your {user_input} will be {user_choice_cost}$")
+    print("Please insert coins.")
+    quarters = int(input("how many quarters: "))
+    dimes = int(input("how many dimes: "))
+    nickles = int(input("how many nickles: "))
+    pennies = int(input("how many pennies: "))
+
+    user_total = (quarters * 0.25) + (dimes * 0.1) + (nickles * 0.05) + (pennies * 0.01)
+    choice_total = user_choice_cost
+
+    change = round(user_total - choice_total, 2)
+
+    if user_total < choice_total:
+        print("Not enough money.")
+        exit()
+    else:
+        print(f"Here is {change}$ in change")
+        print(f"Here is yours {user_input}☕ . Enjoy")
+
+    actual_coffee = resources["coffee"]
+    actual_water = resources["water"]
+    actual_milk = resources["milk"]
+    actual_money = resources["money"]
+
+    resources["coffee"] = actual_coffee - MENU[user_input]["ingredients"]["coffee"]
+    resources["water"] = actual_water - MENU[user_input]["ingredients"]["water"]
+    if user_input not in ["espresso"]:
+        resources["milk"] = actual_milk - MENU[user_input]["ingredients"]["milk"]
+    resources["money"] = actual_money + MENU[user_input]["cost"]
 
 
-print("Correct input")
-print(choice)
+while True:
+    choice = user_choice()
+    choice = function_choice(choice)
+    paying(choice)
+
+#print("Correct input")
+#print(choice)
